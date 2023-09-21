@@ -6,11 +6,8 @@ let state = []
 let pivot = 0
 let number = null
 
-
-
 document.getElementById('mycanvas').width = 1400
 document.getElementById('mycanvas').height = 700
-
 
 //create array
 function newarray(){
@@ -68,10 +65,35 @@ function render(){
             ctx.fill()
             ctx.strokeStyle = '#35155D'
             ctx.stroke()
+
         }
     state = []
+    info()
 }
 render()
+
+//info
+function info(){
+    ctx.beginPath()
+    ctx.rect(0,0, 20, 20)
+    ctx.fillStyle = '#35155D'
+    ctx.fill()
+    ctx.stroke()
+            
+    ctx.beginPath()
+    ctx.font = 'bold 20px Arial'
+    ctx.fillText('Swap elements', 25, 20)
+
+    ctx.beginPath()
+    ctx.rect(0,40, 20, 20)
+    ctx.fillStyle = '#FF2E63'
+    ctx.fill()
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.font = 'bold 20px Arial'
+    ctx.fillText('Pivot', 25, 60)
+}
 
 //new array
 document.getElementById("newarray").onclick = function (){
