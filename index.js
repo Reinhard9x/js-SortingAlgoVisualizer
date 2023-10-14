@@ -6,8 +6,11 @@ let state = []
 let pivot = 0
 let number = null
 
+
+
 document.getElementById('mycanvas').width = 1400
 document.getElementById('mycanvas').height = 700
+
 
 //create array
 function newarray(){
@@ -23,6 +26,7 @@ function newarray(){
         }
         array.push(number)
     }
+    
 }
 newarray()
 
@@ -129,18 +133,35 @@ document.getElementById('heap').onclick = function (){
 
 }
 
+
+let overlay = document.getElementById("overlay")
+toggleOverlay()
+//overlay to stop clicks
+function toggleOverlay(){
+    overlay = document.getElementById("overlay")
+    if (overlay.style.display == 'none') {
+        overlay.style.display = 'block'
+    }
+    else{
+        overlay.style.display = 'none'
+    }
+}
+
 //sorting alogorithms
 
 //quicksort
 async function Startquicksort(){
 
-    Quicksort(0,array.length-1)
+
+    await Quicksort(0,array.length-1)
+    toggleOverlay()
     async function Quicksort(start,end){
         
         if(end <= start){
             return
         }
         pivot = await partition(start,end)
+
         await Quicksort(start,pivot-1)
         await Quicksort(pivot+1,end)
         render()
@@ -176,65 +197,62 @@ async function Startquicksort(){
 }
 
 //mergesort
-function Startmergesort(){
+async function Startmergesort(){
 
-    mergeSort(array, 0, array.length -1 )
+    await mergeSort(array, 0, array.length -1 )
+    toggleOverlay()
     render()
     
     
-async function merge(arr, start, mid, end){
-    let start2 = mid + 1
+    async function merge(arr, start, mid, end){
+        let start2 = mid + 1
  
-    // If the direct merge is already sorted
-    if (arr[mid] <= arr[start2])
-    {
-        return
-    }
- 
-    // Two pointers to maintain start
-    // of both arrays to merge
-    while (start <= mid && start2 <= end)
-    {
-         
-        // If element 1 is in right place
-        if (arr[start] <= arr[start2])
-        {
-            start++
-        }
-        else
-        {
-            state.push(array[start])
-            state.push(array[start2])
-            let value = arr[start2]
-            let index = start2
-            await sleep(30)
-            render()
-            state = []
-            // Shift all the elements between element 1
-            // element 2, right by 1.
-            while (index != start)
+        // If the direct merge is already sorted
+        if (arr[mid] <= arr[start2])  
+            return
+     
+        // Two pointers to maintain start
+        // of both arrays to merge
+        while (start <= mid && start2 <= end){
+             
+            // If element 1 is in right place
+            if (arr[start] <= arr[start2])
             {
-                arr[index] = arr[index - 1]
-                index--
+                start++
             }
-            arr[start] = value
-            await sleep(30)
-            render()
-            // Update all the pointers
-            start++
-            mid++
-            start2++
-            state = []
+            else
+            {
+                state.push(array[start])
+                state.push(array[start2])
+                let value = arr[start2]
+                let index = start2
+                await sleep(30)
+                render()
+                state = []
+                // Shift all the elements between element 1
+                // element 2, right by 1.
+                while (index != start)
+                {
+                    arr[index] = arr[index - 1]
+                    index--
+                }
+                arr[start] = value
+                await sleep(30)
+                render()
+                // Update all the pointers
+                start++
+                mid++
+                start2++
+                state = []
+            }
         }
     }
-}
+    
  
-/* l is for left index and r is right index
-of the sub-array of arr to be sorted */
-async function mergeSort(arr, l, r)
-{
-    if (l < r)
-    {
+    /* l is for left index and r is right index
+    of the sub-array of arr to be sorted */
+    async function mergeSort(arr, l, r){
+        if (l < r){
          
         // Same as (l + r) / 2, but avoids overflow
         // for large l and r
@@ -247,10 +265,9 @@ async function mergeSort(arr, l, r)
         await merge(arr, l, m, r)
         await sleep(30)
         render()
-    }
-}
-    
+        }
 
+    }  
 }
 
 //bubblesort
@@ -275,6 +292,7 @@ function Startbubblesort(){
             }
         }
         render()
+        toggleOverlay()
     }
 
     
@@ -309,8 +327,10 @@ function Startbitonicsort(){
         }
         await sleep(60)
         render()
+        toggleOverlay()
     }
     render()
+    
     
 }
 
@@ -339,6 +359,7 @@ function Startheapsort(){
           render()
           state = []
         }
+        toggleOverlay()
       }
       
       async function heapify(array, size, i) {
@@ -375,27 +396,32 @@ document.getElementById("startsorting").onclick = function (){
     switch(choice){
         case 1:
             document.getElementById("startsorting").disabled = true
+            toggleOverlay()
             Startquicksort()
             break
         case 2:
             document.getElementById("startsorting").disabled = true
+            toggleOverlay()
             Startmergesort()
             break
         case 3:
             document.getElementById("startsorting").disabled = true
+            toggleOverlay()
             Startbubblesort()
             break
         case 4:
             document.getElementById("startsorting").disabled = true
+            toggleOverlay()
             Startbitonicsort()
             break
         case 5:
             document.getElementById("startsorting").disabled = true
+            toggleOverlay()
             Startheapsort()
             break
     }
 }
 //sleep
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms))
 }
